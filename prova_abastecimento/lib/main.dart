@@ -7,11 +7,13 @@ import 'firebase_options.dart';
 import 'telas/usuario/telaLogin.dart';
 import 'telas/usuario/telaRegistro.dart';
 import 'telas/TelaInicial.dart';
-import 'telas/Veiculo/ListarVeiculo.dart';
-import 'telas/Veiculo/CadastroVeiculo.dart';
+import 'telas/veiculo/ListarVeiculo.dart';
+import 'telas/veiculo/CadastroVeiculo.dart';
 import 'provider/authProvider.dart' as app;
 import 'provider/veiculoProvider.dart';
 import 'models/veiculo.dart';
+import 'provider/abastecimentoProvider.dart';
+import 'telas/abastecimento/listarAbastecimento.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,6 +30,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => app.AuthProvider()),
         ChangeNotifierProvider(create: (_) => VeiculoProvider()),
+        ChangeNotifierProvider(create: (_) => AbastecimentoProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -39,11 +42,16 @@ class MyApp extends StatelessWidget {
           '/login': (context) => const TelaLogin(),
           '/registro': (context) => const TelaRegistro(),
           '/home': (context) => const TelaInicial(),
-          '/veiculos': (context) => const TelaListaVeiculos(),
-          '/novo-veiculo': (context) => const TelaCadastroVeiculo(),
-          '/editar-veiculo': (context) => TelaCadastroVeiculo(
-                veiculo: ModalRoute.of(context)?.settings.arguments as Veiculo?,
-              ),
+          '/veiculos': (context) => TelaListarVeiculos(),
+          '/novo-veiculo': (context) => TelaCadastroVeiculo(),
+          '/editar-veiculo': (context) {
+            final veiculo = ModalRoute.of(context)?.settings.arguments as Veiculo?;
+            return TelaCadastroVeiculo(veiculo: veiculo);
+          },
+          '/abastecimentos': (context) {
+            final veiculoId = ModalRoute.of(context)!.settings.arguments as String;
+            return TelaListarAbastecimento(veiculoId: veiculoId);
+          },
         },
       ),
     );

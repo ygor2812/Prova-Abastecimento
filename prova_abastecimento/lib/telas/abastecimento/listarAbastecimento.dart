@@ -1,28 +1,29 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../provider/veiculoProvider.dart';
-import 'CadastroVeiculo.dart';
-import 'package:flutter/cupertino.dart';
+import '../../provider/abastecimentoProvider.dart';
+import 'cadastroAbastecimento.dart';
 
-class TelaListarVeiculos extends StatefulWidget {
-  const TelaListarVeiculos({super.key});
+class TelaListarAbastecimento extends StatefulWidget {
+  final String veiculoId;
+  const TelaListarAbastecimento({super.key, required this.veiculoId});
 
   @override
-  State<TelaListarVeiculos> createState() => _TelaListarVeiculosState();
+  State<TelaListarAbastecimento> createState() => _TelaListarAbastecimentoState();
 }
 
-class _TelaListarVeiculosState extends State<TelaListarVeiculos> {
+class _TelaListarAbastecimentoState extends State<TelaListarAbastecimento> {
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<VeiculoProvider>().carregar();
+      context.read<AbastecimentoProvider>().carregar(widget.veiculoId);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final provider = context.watch<VeiculoProvider>();
+    final provider = context.watch<AbastecimentoProvider>();
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -45,17 +46,19 @@ class _TelaListarVeiculosState extends State<TelaListarVeiculos> {
           children: [
             const SizedBox(height: 120),
             const Text(
-              "Meus Veículos",
+              "Abastecimentos",
               style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 20),
             Expanded(
               child: provider.lista.isEmpty
-                  ? const Center(child: Text("Nenhum veículo", style: TextStyle(color: Colors.white70)))
+                  ? const Center(
+                      child: Text("Nenhum abastecimento", style: TextStyle(color: Colors.white70)),
+                    )
                   : ListView.builder(
                       itemCount: provider.lista.length,
                       itemBuilder: (_, i) {
-                        final v = provider.lista[i];
+                        final a = provider.lista[i];
                         return Container(
                           margin: const EdgeInsets.symmetric(vertical: 6),
                           padding: const EdgeInsets.all(12),
@@ -64,15 +67,29 @@ class _TelaListarVeiculosState extends State<TelaListarVeiculos> {
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: ListTile(
-                            title: Text(v.modelo, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
-                            subtitle: Text("${v.marca} | ${v.ano}", style: const TextStyle(color: Colors.white70)),
+                            title: Text(
+                              "${a.litros}L × R\$${a.valorLitro.toStringAsFixed(2)}",
+                              style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+                            ),
+                            subtitle: Text(
+                              "Total: R\$${a.valorTotal.toStringAsFixed(2)} | ${a.data.toLocal().toString().substring(0, 16)}",
+                              style: const TextStyle(color: Colors.white70),
+                            ),
                             trailing: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 IconButton(
                                   icon: const Icon(Icons.edit, color: Colors.blueAccent),
                                   onPressed: () {
-                                    Navigator.pushNamed(context, '/editar-veiculo', arguments: v);
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => TelaCadastroAbastecimento(
+                                          abastecimento: a,
+                                          veiculoId: widget.veiculoId,
+                                        ),
+                                      ),
+                                    );
                                   },
                                 ),
                                 IconButton(
@@ -85,21 +102,23 @@ class _TelaListarVeiculosState extends State<TelaListarVeiculos> {
                                         title: const Text("Excluir?", style: TextStyle(color: Colors.white)),
                                         content: const Text("Tem certeza?", style: TextStyle(color: Colors.white70)),
                                         actions: [
-                                          TextButton(onPressed: () => Navigator.pop(context, false), child: const Text("Cancelar")),
-                                          TextButton(onPressed: () => Navigator.pop(context, true), child: const Text("Excluir", style: TextStyle(color: Colors.redAccent))),
+                                          TextButton(
+                                            onPressed: () => Navigator.pop(context, false),
+                                            child: const Text("Cancelar"),
+                                          ),
+                                          TextButton(
+                                            onPressed: () => Navigator.pop(context, true),
+                                            child: const Text("Excluir", style: TextStyle(color: Colors.redAccent)),
+                                          ),
                                         ],
                                       ),
                                     );
                                     if (confirm == true) {
-                                      await provider.deletar(v.id);
-                                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Excluído")));
+                                      await provider.deletar(widget.veiculoId, a.id);
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        const SnackBar(content: Text("Excluído")),
+                                      );
                                     }
-                                  },
-                                ),
-                                IconButton(
-                                  icon: const Icon(Icons.local_gas_station, color: Colors.greenAccent),
-                                  onPressed: () {
-                                    Navigator.pushNamed(context, '/abastecimentos', arguments: v.id);
                                   },
                                 ),
                               ],
@@ -115,8 +134,18 @@ class _TelaListarVeiculosState extends State<TelaListarVeiculos> {
               child: CupertinoButton(
                 padding: const EdgeInsets.all(17),
                 color: Colors.greenAccent,
-                child: const Text("NOVO VEÍCULO", style: TextStyle(color: Colors.black45, fontSize: 14, fontWeight: FontWeight.w600)),
-                onPressed: () => Navigator.pushNamed(context, '/novo-veiculo'),
+                child: const Text(
+                  "NOVO ABASTECIMENTO",
+                  style: TextStyle(color: Colors.black45, fontSize: 14, fontWeight: FontWeight.w600),
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => TelaCadastroAbastecimento(veiculoId: widget.veiculoId),
+                    ),
+                  );
+                },
               ),
             ),
           ],

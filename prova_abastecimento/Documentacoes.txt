@@ -1,0 +1,24 @@
+https://firebase.google.com/docs/firestore/quickstart?hl=pt-br
+https://firebase.google.com/docs/firestore/manage-data/add-data?hl=pt-br
+https://firebase.google.com/docs/firestore/query-data/listen?hl=pt-br
+https://firebase.google.com/docs/firestore/query-data/order-limit-data?hl=pt-br
+https://firebase.google.com/docs/firestore/data-model?hl=pt-br#subcollections
+https://firebase.google.com/docs/firestore/query-data/get-data?hl=pt-br#web-version-9_9
+https://docs.flutter.dev
+https://api.flutter.dev
+https://docs.flutter.dev/data-and-backend/state-mgmt/simple`
+https://pub.dev/packages/provider
+https://pub.dev/documentation/provider/latest/
+https://github.com/rrousselGit/provider exemplo para provider
+
+firebase
+https://console.firebase.google.com
+https://firebase.flutter.dev
+https://firebase.google.com/docs/auth
+https://firebase.flutter.dev/docs/auth/overview
+
+cloudfirestone
+https://firebase.flutter.dev/docs/firestore/overview
+
+Design de tela
+https://ninelabs.blog/tela-de-login-no-flutter/
