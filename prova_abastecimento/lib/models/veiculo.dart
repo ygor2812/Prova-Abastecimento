@@ -35,6 +35,7 @@ class Veiculo {
       'tipoCombustivel': tipoCombustivel,
     };
   }
+
   Veiculo copyWith({
     String? modelo,
     String? marca,

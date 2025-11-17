@@ -31,12 +31,12 @@ class TelaListaVeiculos extends StatelessWidget {
             const Text("Meus Veículos", style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold)),
             const SizedBox(height: 20),
             Expanded(
-              child: provider.veiculos.isEmpty
+              child: provider.lista.isEmpty
                   ? const Center(child: Text("Nenhum veículo cadastrado", style: TextStyle(color: Colors.white70)))
                   : ListView.builder(
-                      itemCount: provider.veiculos.length,
+                      itemCount: provider.lista.length,
                       itemBuilder: (_, i) {
-                        final v = provider.veiculos[i];
+                        final v = provider.lista[i];
                         return Container(
                           margin: const EdgeInsets.symmetric(vertical: 6),
                           padding: const EdgeInsets.all(12),
