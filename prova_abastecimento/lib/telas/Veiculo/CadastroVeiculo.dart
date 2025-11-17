@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../provider/veiculoProvider.dart';
 import '../../models/veiculo.dart';
 
+
 class TelaCadastroVeiculo extends StatefulWidget {
   final Veiculo? veiculo;
   const TelaCadastroVeiculo({super.key, this.veiculo});
@@ -38,7 +39,7 @@ class _TelaCadastroVeiculoState extends State<TelaCadastroVeiculo> {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         title: Image.asset(
-          "assets/imagem/marcas-de-carros-de-luxo-lamborghini.jpg",
+          "assets/imagem/posto.jpg",
           width: 300,
           height: 150,
         ),
@@ -78,9 +79,12 @@ class _TelaCadastroVeiculoState extends State<TelaCadastroVeiculo> {
             const SizedBox(height: 40),
             SizedBox(
               width: double.infinity,
-              child: CupertinoButton(
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.all(17),
-                color: Colors.greenAccent,
+                backgroundColor: Colors.greenAccent,
+                foregroundColor:Colors.black87,
+                ),
                 onPressed: provider.carregando
                     ? null
                     : () async {
@@ -133,7 +137,7 @@ class _TelaCadastroVeiculoState extends State<TelaCadastroVeiculo> {
                         if (mounted) Navigator.pop(context);
                       },
                 child: provider.carregando
-                    ? const CupertinoActivityIndicator(color: Colors.black)
+                    ? const CircularProgressIndicator(color: Colors.black)
                     : Text(
                         isEdit ? "ATUALIZAR" : "SALVAR",
                         style: const TextStyle(
@@ -152,7 +156,7 @@ class _TelaCadastroVeiculoState extends State<TelaCadastroVeiculo> {
                 border: Border.all(color: Colors.white70, width: 0.8),
                 borderRadius: BorderRadius.circular(7),
               ),
-              child: CupertinoButton(
+              child: ElevatedButton(
                 child: const Text(
                   "CANCELAR",
                   style: TextStyle(

@@ -35,7 +35,30 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Controle de Veículos',
-        theme: ThemeData(useMaterial3: true, colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple)),
+        theme: ThemeData(
+          useMaterial3: true,
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          scaffoldBackgroundColor: Colors.transparent,
+          appBarTheme: const AppBarTheme(
+          elevation:0,
+          ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.greenAccent,
+            foregroundColor:Colors.black45,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)),
+          ),
+        ),
+        textTheme: const TextTheme(
+          bodyMedium: TextStyle(color:Colors.white),
+        ),
+        pageTransitionsTheme: const PageTransitionsTheme(
+          builders:{
+            TargetPlatform.android: ZoomPageTransitionsBuilder(),
+            TargetPlatform.iOS: ZoomPageTransitionsBuilder(),
+          },
+        ),
+      ),
         initialRoute: '/',
         routes: {
           '/': (context) => const AuthWrapper(),

@@ -25,3 +25,12 @@ https://ninelabs.blog/tela-de-login-no-flutter/
 
 icones
 https://api.flutter.dev/flutter/material/Icons-class.html
+
+drawer e themes
+https://api.flutter.dev/flutter/material/Drawer-class.html
+https://m3.material.io/
+https://docs.flutter.dev/release/breaking-changes/material-3-migration
+https://api.flutter.dev/flutter/material/ListTile-class.html
+https://api.flutter.dev/flutter/material/AppBar-class.html
+https://api.flutter.dev/flutter/material/ElevatedButtonThemeData-class.html
+https://api.flutter.dev/flutter/material/PageTransitionsTheme-class.html

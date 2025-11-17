@@ -29,7 +29,7 @@ class _TelaListarAbastecimentoState extends State<TelaListarAbastecimento> {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         title: Image.asset(
-          "assets/imagem/marcas-de-carros-de-luxo-lamborghini.jpg",
+          "assets/imagem/posto.jpg",
           width: 300,
           height: 150,
         ),
@@ -71,15 +71,34 @@ class _TelaListarAbastecimentoState extends State<TelaListarAbastecimento> {
                               "${a.litros}L × R\$${a.valorLitro.toStringAsFixed(2)}",
                               style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
                             ),
-                            subtitle: Text(
-                              "Total: R\$${a.valorTotal.toStringAsFixed(2)} | ${a.data.toLocal().toString().substring(0, 16)}",
-                              style: const TextStyle(color: Colors.white70),
+                            subtitle: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Total: R\$${a.valorTotal.toStringAsFixed(2)} | ${a.data.toLocal().toString().substring(0, 16)}",
+                                  style: const TextStyle(color: Colors.white70),
+                                ),
+                                Text(
+                                  "KM: ${a.quilometragem.toStringAsFixed(0)}",
+                                  style: const TextStyle(color: Colors.white70),
+                                ),
+                                if (a.consumo > 0)
+                                  Text(
+                                    "Consumo: ${a.consumo.toStringAsFixed(1)} km/l",
+                                    style: const TextStyle(color: Colors.greenAccent),
+                                  ),
+                                if (a.observacao.isNotEmpty)
+                                  Text(
+                                    "Obs: ${a.observacao}",
+                                    style: const TextStyle(color: Colors.white60, fontStyle: FontStyle.italic),
+                                  ),
+                              ],
                             ),
                             trailing: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 IconButton(
-                                  icon: const Icon(Icons.edit, color: Colors.blueAccent),
+                                  icon: const Icon(Icons.edit, color: Colors.black),
                                   onPressed: () {
                                     Navigator.push(
                                       context,
@@ -131,9 +150,10 @@ class _TelaListarAbastecimentoState extends State<TelaListarAbastecimento> {
             const SizedBox(height: 20),
             SizedBox(
               width: double.infinity,
-              child: CupertinoButton(
-                padding: const EdgeInsets.all(17),
-                color: Colors.greenAccent,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.all(17),
+                ),
                 child: const Text(
                   "NOVO ABASTECIMENTO",
                   style: TextStyle(color: Colors.black45, fontSize: 14, fontWeight: FontWeight.w600),

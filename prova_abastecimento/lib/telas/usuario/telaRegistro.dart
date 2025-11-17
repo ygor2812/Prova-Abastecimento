@@ -23,7 +23,7 @@ class _TelaRegistroState extends State<TelaRegistro> {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         title: Image.asset(
-          "/assets/imagem/marcas-de-carros-de-luxo-lamborghini.png",
+          "/assets/imagem/posto.jpg",
           width: 150,
           height: 150,
         ),
@@ -97,9 +97,13 @@ class _TelaRegistroState extends State<TelaRegistro> {
 
             SizedBox(
               width: double.infinity,
-              child: CupertinoButton(
+              child: ElevatedButton(
+                style:ElevatedButton.styleFrom(
                 padding: const EdgeInsets.all(17),
-                color: Colors.greenAccent,
+                backgroundColor: Colors.greenAccent,
+                foregroundColor:Colors.black87,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)),
+                ),
                 child: auth.loading
                     ? const CupertinoActivityIndicator(color: Colors.black)
                     : const Text(
@@ -166,7 +170,7 @@ class _TelaRegistroState extends State<TelaRegistro> {
                 border: Border.all(color: Colors.white70, width: 0.8),
                 borderRadius: BorderRadius.circular(7),
               ),
-              child: CupertinoButton(
+              child: ElevatedButton(
                 child: const Text(
                   "VOLTAR",
                   style: TextStyle(

@@ -4,6 +4,9 @@ class Abastecimento {
   final double valorLitro;
   final double valorTotal;
   final DateTime data;
+  final double quilometragem;
+  final double consumo;
+  final String observacao;
 
   Abastecimento({
     required this.id,
@@ -11,6 +14,9 @@ class Abastecimento {
     required this.valorLitro,
     required this.valorTotal,
     required this.data,
+    required this.quilometragem,
+    this.consumo = 0.0,
+    this.observacao = '',
   });
 
   Abastecimento copyWith({
@@ -19,6 +25,9 @@ class Abastecimento {
     double? valorLitro,
     double? valorTotal,
     DateTime? data,
+    double? quilometragem,
+    double? consumo,
+    String? observacao,
   }) {
     return Abastecimento(
       id: id ?? this.id,
@@ -26,6 +35,9 @@ class Abastecimento {
       valorLitro: valorLitro ?? this.valorLitro,
       valorTotal: valorTotal ?? this.valorTotal,
       data: data ?? this.data,
+      quilometragem: quilometragem ?? this.quilometragem,
+      consumo: consumo ?? this.consumo,
+      observacao: observacao ?? this.observacao,
     );
   }
 
@@ -35,6 +47,9 @@ class Abastecimento {
       'valorLitro': valorLitro,
       'valorTotal': valorTotal,
       'data': data.toIso8601String(),
+      'quilometragem': quilometragem,
+      'consumo': consumo,
+      'observacao': observacao,
     };
   }
 
@@ -45,6 +60,9 @@ class Abastecimento {
       valorLitro: map['valorLitro']?.toDouble() ?? 0.0,
       valorTotal: map['valorTotal']?.toDouble() ?? 0.0,
       data: DateTime.parse(map['data'] ?? DateTime.now().toIso8601String()),
+      quilometragem: map['quilometragem']?.toDouble() ?? 0.0,
+      consumo: map['consumo']?.toDouble() ?? 0.0,
+      observacao: map['observacao'] ?? '',
     );
   }
 }

@@ -4,6 +4,8 @@ import '../../provider/veiculoProvider.dart';
 import 'CadastroVeiculo.dart';
 import 'package:flutter/cupertino.dart';
 
+
+
 class TelaListarVeiculos extends StatefulWidget {
   const TelaListarVeiculos({super.key});
 
@@ -28,7 +30,7 @@ class _TelaListarVeiculosState extends State<TelaListarVeiculos> {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         title: Image.asset(
-          "assets/imagem/marcas-de-carros-de-luxo-lamborghini.jpg",
+          "assets/imagem/posto.jpg",
           width: 300,
           height: 150,
         ),
@@ -70,7 +72,7 @@ class _TelaListarVeiculosState extends State<TelaListarVeiculos> {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 IconButton(
-                                  icon: const Icon(Icons.edit, color: Colors.blueAccent),
+                                  icon: const Icon(Icons.edit, color: Colors.black),
                                   onPressed: () {
                                     Navigator.pushNamed(context, '/editar-veiculo', arguments: v);
                                   },
@@ -112,9 +114,10 @@ class _TelaListarVeiculosState extends State<TelaListarVeiculos> {
             const SizedBox(height: 20),
             SizedBox(
               width: double.infinity,
-              child: CupertinoButton(
+              child: ElevatedButton(
+                style:ElevatedButton.styleFrom(
                 padding: const EdgeInsets.all(17),
-                color: Colors.greenAccent,
+                ),
                 child: const Text("NOVO VEÍCULO", style: TextStyle(color: Colors.black45, fontSize: 14, fontWeight: FontWeight.w600)),
                 onPressed: () => Navigator.pushNamed(context, '/novo-veiculo'),
               ),
