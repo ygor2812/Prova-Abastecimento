@@ -22,3 +22,6 @@ https://firebase.flutter.dev/docs/firestore/overview
 
 Design de tela
 https://ninelabs.blog/tela-de-login-no-flutter/
+
+icones
+https://api.flutter.dev/flutter/material/Icons-class.html
