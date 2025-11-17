@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import '../telas/telaRegistro.dart';
+import 'package:provider/provider.dart';
+import '../../provider/authProvider.dart';
+import 'telaRegistro.dart';
 
 class TelaLogin extends StatefulWidget {
   const TelaLogin({super.key});
@@ -14,75 +15,37 @@ class _TelaLoginState extends State<TelaLogin> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController senhaController = TextEditingController();
 
-  bool carregando = false;
-
-  Future<void> fazerLogin() async {
-    if (emailController.text.trim().isEmpty ||
-        senhaController.text.trim().isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("PREENCHA TODOS OS CAMPOS ... -_-")),
-      );
-      return;
-    }
-
-    setState(() => carregando = true);
-
-    try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailController.text.trim(),
-        password: senhaController.text.trim(),
-      );
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Login feito com sucesso.")),
-      );
-    } on FirebaseAuthException catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("ERRO: ${e.message}")),
-      );
-    }
-
-    setState(() => carregando = false);
-  }
-
   @override
   Widget build(BuildContext context) {
+    final auth = context.watch<AuthProvider>();
+
     return Scaffold(
       extendBodyBehindAppBar: true,
-
       appBar: AppBar(
         title: Image.asset(
-          "assets/imagem/marcas-de-carros-de-luxo-lamborghini.jpg",
-          width: 300,
+          "/assets/imagem/marcas-de-carros-de-luxo-lamborghini.png",
+          width: 150,
           height: 150,
-          
         ),
         elevation: 10,
         backgroundColor: Colors.transparent,
       ),
-
       body: Container(
         width: double.infinity,
         padding: const EdgeInsets.all(27),
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [
-              Colors.deepPurple,
-              Colors.blueAccent,
-            ],
+            colors: [Colors.deepPurple, Colors.blueAccent],
           ),
         ),
-
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const SizedBox(height: 30),
-
             const Text(
               "Digite os dados nos campos abaixo",
               style: TextStyle(color: Colors.white),
             ),
-
             const SizedBox(height: 20),
 
             CupertinoTextField(
@@ -121,7 +84,7 @@ class _TelaLoginState extends State<TelaLogin> {
               child: CupertinoButton(
                 padding: const EdgeInsets.all(17),
                 color: Colors.greenAccent,
-                child: carregando
+                child: auth.loading
                     ? const CupertinoActivityIndicator(color: Colors.black)
                     : const Text(
                         "ACESSAR",
@@ -131,7 +94,32 @@ class _TelaLoginState extends State<TelaLogin> {
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                onPressed: carregando ? null : fazerLogin,
+                onPressed: auth.loading
+                    ? null
+                    : () async {
+                        if (emailController.text.trim().isEmpty || senhaController.text.trim().isEmpty) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text("Preencha todos os campos")),
+                          );
+                          return;
+                        }
+
+                        bool ok = await auth.login(
+                          emailController.text.trim(),
+                          senhaController.text.trim(),
+                        );
+
+                        if (ok) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text("Login feito com sucesso.")),
+                          );
+                          Navigator.pushReplacementNamed(context, '/home');
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text(auth.error ?? "Erro desconhecido")),
+                          );
+                        }
+                      },
               ),
             ),
 
